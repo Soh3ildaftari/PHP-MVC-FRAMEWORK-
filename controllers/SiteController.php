@@ -1,32 +1,39 @@
 <?php
 namespace app\controllers;
-use app\core\Application;
 use app\core\Controller;
+use app\core\Request;
+/**
+ * Summary of SiteController
+ * @author MasterMute <soheilsoheili1113@gmail.com>
+ * @copyright (c) 2023
+ */
 class SiteController extends Controller{
     
-    // public static SiteController $_SC;
-    
-    // public function __construct()
-    // {
-    //    self::$_SC = $this;
-    // }
-
-    public function home()
+    /**
+     * Summary of home
+     * @return array|string
+     */
+    public function home(Request $request)
     {
         $params=["name"=>"MasterMute",
     ];
         return $this->render('home',$params);
         
     }
-    public function handleContact()
-    {
-        $body = Application::$app->request->getBody();
-        return  var_dump($body);
-    }
 
+    /**
+     * Summary of contact
+     * @return array|string
+     */
     public function contact()
     {
-        return Application::$app->router->renderView('contact');
-    }
+        return $this->render('contact');
+}
+public function handleContact($request)
+{
+    echo '<pre>';
+    var_dump($request->getBody());
+    echo '</pre>';
+}
 
 }

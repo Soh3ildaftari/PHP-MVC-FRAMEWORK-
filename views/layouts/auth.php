@@ -68,26 +68,7 @@
     </style>
 </head>
 <body>
-  <ul class="nav">
-  <li class="nav-item">
-    <a class="nav-link" href="/">Home</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="/contact">Contact</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="/lol">go</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="/login">login</a>
-  </li>  <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="/register">register</a>
-  </li>
-</ul>
-
 <div class="container">{{content}}</div>
-
-
  <script src="../bootstrap-5.1.3-dist/js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 </body>
 </html>

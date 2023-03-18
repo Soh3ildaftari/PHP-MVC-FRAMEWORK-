@@ -1,7 +1,10 @@
 <?php
 namespace app\core;
-use app\controllers\SiteController;
-
+/**
+ * Summary of Router
+ * @author MasterMute <soheilsoheili1113@gmail.com>
+ * @copyright (c) $CURRENT_YEAR
+ */
 class Router
 {
     //set pathes of requset and their Method by a nasted array
@@ -30,20 +33,26 @@ class Router
     //
 
     //creat func to render view for given path 
-    public function renderView($view,$params =[]){
+    public function renderView($view,$params =[],$layout = 'main'){
       
-        $layoutContant = $this->layoutContent();
+        $layoutContant = $this->layoutContent($layout);
         $viewContent = $this->rendreOnlyView($view,$params);
         return str_replace('{{content}}', $viewContent, $layoutContant);
     }
 
 
-    protected function layoutContent(){
+    protected function layoutContent($layout){
         ob_start();
-        include_once Application::$ROOT_DIR."/views/layouts/main.php";   
+        include_once Application::$ROOT_DIR."/views/layouts/$layout.php";   
         return ob_get_clean();
     }
-    public function rendreOnlyView($view,$params){
+    /**
+     * Summary of rendreOnlyView
+     * @param mixed $view
+     * @param mixed $params
+     * @return bool|string
+     */
+    public function rendreOnlyView($view,$params = []){
         foreach ($params as $key => $value) {
             $$key = $value;
         }   
@@ -54,9 +63,7 @@ class Router
     //resolve
     public function resolve() {
         $path = $this->request->getPath();
-
-        $method = $this->request->getMethod();
-        
+        $method = $this->request->method();
         $callback = $this->routes[$method][$path] ?? false;
         
         if ($callback === false) {

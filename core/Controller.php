@@ -1,9 +1,13 @@
 <?php
 namespace app\core;
 class Controller{
-    
-    public function render($view, $params)
+    public $layout = 'main';
+    public function setLayout(string $layout)
     {
-       return Application::$app->router->renderView($view,$params);
+        $this->layout = $layout;
+    }
+    public function render($view,$params = [])
+    {
+       return Application::$app->router->renderView($view,$params,$this->layout);
     }
 }
