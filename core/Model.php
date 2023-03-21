@@ -29,27 +29,47 @@ abstract class Model
             self::RULE_UNIQUE => 'Record with with this {field} already exists',
         ];
     }
-    public function addError(string $attribute,string $rule)
+    public function addError(string $attribute,array $rule)
     {
-        $massage = $this->errorMessages()[$rule] ?? 'undefined error';
-        $this->errors[$attribute][$rule] = $massage; 
+        foreach ($rule as $key => $value) {
+            $massage = str_replace("{{$key}}", $value, $this->errorMessages()[$rule[0]]);
+        }
+        $massage ?? 'undefined error';
+        $this->errors[$attribute][] =$massage; 
     }
     public function validate()
     { 
         foreach ($this->rules() as $attribute => $rules) {
             $value = $this->{$attribute};
             foreach ($rules as $rule) {
-                $ruleName = $rule;
-                if (!is_string($ruleName)) {
-                    $ruleName = $rule[0];
-                }
+                 $ruleName = $rule[0];
                 if ($ruleName === self::RULE_REQUIRED && !$value) {
-                    $this->addError($attribute, $ruleName);
-                }    
+                    $this->addError($attribute, $rule);
+                }            
+                if ($ruleName === self::RULE_EMAIL && !filter_var($value,FILTER_VALIDATE_EMAIL)) {
+                    $this->addError($attribute, $rule);
+                }  
+                if ($ruleName === self::RULE_MIN && strlen($value) < $rule['min']) {
+                    $this->addError($attribute, $rule);
+                }  
+                if ($ruleName === self::RULE_MAX && strlen($value) > $rule['max']) {
+                    $this->addError($attribute, $rule);
+                }
+                if ($ruleName === self::RULE_MATCH && $value !== $this->{$rule['match']} ) {
+                    $this->addError($attribute, $rule);
+                }  
             }
         }
+        return empty($this->errors);
     }
-    
+    public function hasError($attribute)
+    {
+        return $this->errors[$attribute] ?? false;
+    }
+    public function getFirstError($attribute)
+    {
+        return $this->errors[$attribute][0] ?? false;
+    }    
 
 }
 

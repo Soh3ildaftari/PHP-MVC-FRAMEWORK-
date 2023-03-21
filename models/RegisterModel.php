@@ -8,15 +8,15 @@ use app\core\Model;
  */
 class RegisterModel extends Model
 {
-    public string $email;   
-    public string $pass;   
-    public string $passConf;
+    public string $email = '';   
+    public string $pass = '';   
+    public string $passConf = '';
     public function rules(): array
     {
         return [
-            'email' => [self::RULE_EMAIL, self::RULE_REQUIRED],
-            'pass' => [self::RULE_REQUIRED,[self::RULE_MAX, 'max'=>24 ], [self::RULE_MIN, 'min'=>8 ] ],
-            'passConf' => [self::RULE_REQUIRED , [self::RULE_MATCH , 'match'=>'pass']]
+            'email' => [ [self::RULE_REQUIRED],[self::RULE_EMAIL]],
+            'pass' => [[self::RULE_REQUIRED],[self::RULE_MAX, 'max'=>24 ], [self::RULE_MIN, 'min'=>8 ] ],
+            'passConf' => [[self::RULE_REQUIRED] , [self::RULE_MATCH , 'match'=>'pass']]
         ];
     }   
 

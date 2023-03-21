@@ -8,6 +8,6 @@ class Controller{
     }
     public function render($view,$params = [])
     {
-       return Application::$app->router->renderView($view,$params,$this->layout);
+       return Application::$app->router->view->renderView($view,$params,$this->layout);
     }
 }
