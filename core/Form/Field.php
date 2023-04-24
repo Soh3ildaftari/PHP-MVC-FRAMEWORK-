@@ -12,7 +12,7 @@ class Field
     public const TYPE_PASS = 'password';
     public const TYPE_NUMBER = 'number';
     public Model $model;
-    public string $attribute;
+    public string $attribute;       
     public string $type;
 
     public function __construct(Model $model, $attribute)
@@ -20,7 +20,6 @@ class Field
         $this->model = $model;
         $this->attribute = $attribute;
         $this->type = self::TYPE_TEXT;
-        return $this;
     }
     public function __toString()
     {
@@ -29,7 +28,7 @@ class Field
         <input type="%s" name="%s" value="%s" class="form-control%s">
         <div class="invalid-feedback">%s</div>
       </div>'
-       ,$this->attribute
+       ,$this->model->label()[$this->attribute] ?? $this->attribute
        ,$this->type
        ,$this->attribute
        ,$this->model->{$this->attribute}

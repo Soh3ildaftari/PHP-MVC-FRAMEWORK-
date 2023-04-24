@@ -1,8 +1,10 @@
 <?php
 namespace app\controllers;
+use app\core\Application;
 use app\core\Controller;
 use app\core\Request;
-use app\models\RegisterModel;
+use app\models\login;
+use app\models\user;
 /**
  * Summary of AuthController
  * @author MasterMute <soheilsoheili1113@gmail.com>
@@ -13,7 +15,7 @@ class AuthController extends Controller {
     public function register(Request $request)
     {
     $this->setLayout('auth');
-    $registerModel = new RegisterModel();
+    $registerModel = new user();
        if ($request->isGet()) {
             
          return $this->render('register',[ 'model' => $registerModel]);
@@ -21,10 +23,9 @@ class AuthController extends Controller {
        }    
        if ($request->isPost()) {
         $registerModel->loadData($request->getBody());
-        if($registerModel->validate()){
-         echo '<pre>';
-         var_dump($request->getBody());
-         echo '</pre>';
+        if($registerModel->validate() && $registerModel->save()){
+          Application::$app->session->setFlash('success', 'Thanks For Registration');
+          Application::$app->response->redirect('/');
         }
         else{
          return $this->render('register',[ 'model' => $registerModel]);
@@ -34,13 +35,22 @@ class AuthController extends Controller {
     }
     public function login(Request $request)
     {
+        $login = new login;
        if ($request->isGet()) {
         $this->setLayout('auth');
-        return $this->render('login');
+        return $this->render('login', ['model' => $login]);
        }
        if ($request->isPost()) {
-         return 'welcome to your home!';
-       }
+          $login->loadData($request->getBody());
+          if ($login->validate() && $login->login()) {
+              Application::$app->response->redirect('/');   
+            }
+            else{
+              $this->setLayout('auth');
+              return $this->render('login', ['model' => $login]);
+             }
+          }
+
     }
 
 }
