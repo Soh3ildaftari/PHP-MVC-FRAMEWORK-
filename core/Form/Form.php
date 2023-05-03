@@ -1,11 +1,11 @@
 <?php 
 namespace app\core\form;
-use app\core\Model;
 /**
  * Summary of Form
  * @author MasterMute <soheilsoheili1113@gmail.com>
  * @copyright (c) $CURRENT_YEAR
  */
+use app\core\Model;
 class Form
 {
     public static function begin($action , $method)
@@ -17,10 +17,13 @@ class Form
     {
         echo "</form>";
     }
-    public function field(Model $model,$attribute)
+    public function inputField(Model $model,$attribute)
     {
-        return new Field($model, $attribute);
-        
+        return new InputField($model, $attribute);
+    }
+    public function textArea(Model $model,$attribute)
+    {
+        return new textArea($model, $attribute);
     }
 }
 ?>

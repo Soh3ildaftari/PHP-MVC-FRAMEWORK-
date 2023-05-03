@@ -1,12 +1,11 @@
 <?php
 namespace app\models;
-use app\core\Dbmodel;
-use app\core\Model;
 /**
- * Summary of RegisterModel
+ * Summary of user
  * @author MasterMute <soheilsoheili1113@gmail.com>
  * @copyright (c) 2023
  */
+use app\core\db\Dbmodel;
 class user extends Dbmodel
 {
     const STATUS_INACTIVE = 0;
@@ -63,6 +62,9 @@ class user extends Dbmodel
         }
         $statement->execute();
         return $statement->fetchObject(self::class) ?? null;
+    }
+    public function displayEmail(){
+        return $this->email;
     }
 
 

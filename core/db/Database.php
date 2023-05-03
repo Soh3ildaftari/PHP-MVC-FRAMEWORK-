@@ -1,11 +1,12 @@
 <?php
-namespace app\core;
-use PDO;
+namespace app\core\db;
 /**
  * Summary of Database
  * @author MasterMute <soheilsoheili1113@gmail.com>
  * @copyright (c) 2023
  */
+use app\core\Application;
+use PDO;
 class Database
 {
     public PDO $pdo;

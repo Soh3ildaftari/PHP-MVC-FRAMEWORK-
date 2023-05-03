@@ -1,5 +1,10 @@
 <?php
 namespace app\core;
+/**
+ * Summary of Model
+ * @author MasterMute <soheilsoheili1113@gmail.com>
+ * @copyright (c) 2023
+ */
 abstract class Model
 {
     public const RULE_REQUIRED = 'required';

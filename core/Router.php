@@ -3,15 +3,15 @@ namespace app\core;
 /**
  * Summary of Router
  * @author MasterMute <soheilsoheili1113@gmail.com>
- * @copyright (c) $CURRENT_YEAR
+ * @copyright (c) 2023
  */
 class Router
 {
-    //set pathes of requset and their Method by a nasted array
+    //set path's of request and their Method by a nasted array
     protected array $routes= [ [ 'get' => [     ] , 'post' => [    ] ] ] ;
-    //Creat prop request and assign it inside contructor
+    //Create prop request and assign it inside contractor
     public Request $request; 
-    // create constructor that passes Requset as arrg
+    // create constructor that passes Request as arg
     public Response $response;
     //
     public View $view;
@@ -30,25 +30,33 @@ class Router
     }   
     //
 
-    //creat func to render view for given path 
+    //create func to render view for given path 
 
     //resolve
     public function resolve() {
         $path = $this->request->getPath();
         $method = $this->request->method();
-        $callback = $this->routes[$method][$path] ?? false;
-        
+        $callback = $this->routes[$method][$path] ?? false;   
         if ($callback === false) {
-            //Application::$app->response->setStatusCode(404);
+            Application::$app->response->setStatusCode(404);
             $this->response->setStatusCode(404);
-            return $this->view->renderView('_404');
+            $e = new exception\NotfoundException();
+            return $this->view->renderView('_error',['exception'=> $e ]);
             }
 
         if (is_string($callback)) {
             return $this->view->renderView($callback);
             }
-        if (is_array($callback)) {
-            $callback[0]= new $callback[0]; 
+        if (is_array($callback)){
+            /** @var $controller app\core\Controller */
+            $controller =& Application::$app->controller;
+            $callback[0] = new $callback[0](); 
+            $controller = $callback[0];
+            $controller->action = $callback[1];
+            foreach ($controller->getMiddlewares() as $middleware) {
+                $middleware->execute();
+            }
+            
         }
         
         return call_user_func($callback, $this->request);

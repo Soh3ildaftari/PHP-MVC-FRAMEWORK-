@@ -1,5 +1,9 @@
 <?php
-// use nameSpace
+/**
+ * Summary of index
+ * @author MasterMute <soheilsoheili1113@gmail.com>
+ * @copyright (c) 2023
+ */
 use app\core\Application;
 use app\controllers\SiteController;
 use app\controllers\AuthController  ;
@@ -20,12 +24,14 @@ $config = [
 //create an instance of Application
 $app = new Application(dirname(__DIR__),$config);
 //Declare Routing
-$app->router->get('/',[SiteController::class , 'home']);
 $app->router->get('/contact',[SiteController::class, 'contact']);
-$app->router->get('/register',[AuthController::class , 'register']);
 $app->router->get('/login',[AuthController::class , 'login']);
-$app->router->post('/register',[AuthController::class , 'register']);
+$app->router->get('/register',[AuthController::class , 'register']);
+$app->router->get('/logout',[AuthController::class , 'logout']);
+$app->router->get('/profile',[AuthController::class , 'profile']);
+$app->router->get('/',[SiteController::class , 'home']);
+$app->router->post('/contact',[SiteController::class, 'contact']);
 $app->router->post('/login',[AuthController::class , 'login']);
-$app->router->post('/contact',[SiteController::class, 'handleContact']);
+$app->router->post('/register',[AuthController::class , 'register']);
 //run the app
  $app->run();       

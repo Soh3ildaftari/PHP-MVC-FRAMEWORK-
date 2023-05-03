@@ -3,15 +3,15 @@ namespace app\core;
 /**
  * Summary of View
  * @author MasterMute <soheilsoheili1113@gmail.com>
- * @copyright (c) CURRENT_YEAR
+ * @copyright (c) 2023
  */
 class View
 {
     public function renderView($view,$params =[],$layout = 'main'){
       
-        $layoutContant = $this->layoutContent($layout);
-        $viewContent = $this->rendreOnlyView($view,$params);
-        return str_replace('{{content}}', $viewContent, $layoutContant);
+        $layoutContact = $this->layoutContent($layout);
+        $viewContent = $this->renderOnlyView($view,$params);
+        return str_replace('{{content}}', $viewContent, $layoutContact);
     }
 
 
@@ -20,13 +20,7 @@ class View
         include_once Application::$ROOT_DIR."/views/layouts/$layout.php";   
         return ob_get_clean();
     }
-    /**
-     * Summary of rendreOnlyView
-     * @param mixed $view
-     * @param mixed $params
-     * @return bool|string
-     */
-    public function rendreOnlyView($view,$params = []){
+    public function renderOnlyView($view,$params = []){
         foreach ($params as $key => $value) {
             $$key = $value;
         }   

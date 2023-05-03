@@ -5,9 +5,9 @@
 </html>
 <?php use app\core\form\Form;?>
 <?php $form = Form::begin('',"post") ?>
-<?php echo $form->field($model,'email')?>
-<?php echo $form->field($model,'password')->passField()?>
-<?php echo $form->field($model,'passConf')->passField()?>
+<?php echo $form->inputField($model,'email')?>
+<?php echo $form->inputField($model,'password')->passField()?>
+<?php echo $form->inputField($model,'passConf')->passField()?>
 <div>
 <button type="submit" class="btn btn-primary">Create Account</button><a href="/login">Already Have an Account?</a>
 </div>

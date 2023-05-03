@@ -2,34 +2,31 @@
 namespace app\core;
 /**
  * Summary of Application
- * @author MasterMute
- * @copyright (c) $CURRENT_YEAR
+ * @author MasterMute <soheilsoheili1113@gmail.com>
+ * @copyright (c) 2023
  */
 class Application
 {
     public static Application $app;
+    public ?Controller $controller = null;
     public Session $session;
     public Router $router;
-    public Database $db;
+    public db\Database $db;
     public Request $request;
     public Response $response;
-    public string $userClass;
-    public ?Dbmodel $user = null;
+    public ?db\Dbmodel $user = null;
+    public ?string $userClass;
     public static string $ROOT_DIR;
-    /**
-     * Summary of __construct
-     * @param mixed $rootPath
-     */
     public function __construct($rootPath,array $config)
     {
         self::$app = $this;
         self::$ROOT_DIR = $rootPath;
-        $this->userClass = $config['userClass'];
-        $this->request = new Request();
         $this->session = new Session();
+        $this->db = new db\Database($config['db']);
+        $this->request = new Request();
         $this->response = new Response();
         $this->router = new Router($this->request);
-        $this->db = new Database($config['db']);
+        $this->userClass = $config['userClass'];
         $primaryValue = $this->session->get('user');
         if ($primaryValue) {
             $primaryKey = $this->userClass::primaryKey();
@@ -39,13 +36,17 @@ class Application
     }
     public static function isGuest(): bool
     {
-        return !self::$user;
+        return !self::$app->user;
     }
     public function run()
     {
-        echo $this->router->resolve();
+        try {
+            echo $this->router->resolve();
+        }catch (\Exception $e) {
+          echo Application::$app->controller->render('_error', ['exception' => $e] );
+        }
     }
-    public function login(Dbmodel $user)
+    public function login(db\Dbmodel $user)
     {
         $this->user = $user;
         $primaryKey = $user->primaryKey();

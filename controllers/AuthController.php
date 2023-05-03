@@ -1,16 +1,22 @@
 <?php
 namespace app\controllers;
-use app\core\Application;
-use app\core\Controller;
-use app\core\Request;
-use app\models\login;
-use app\models\user;
 /**
  * Summary of AuthController
  * @author MasterMute <soheilsoheili1113@gmail.com>
  * @copyright (c) 2023
  */
+use app\core\Application;
+use app\core\Controller;
+use app\core\middlewares\AuthMiddleware;
+use app\core\Request;
+use app\models\login;
+use app\models\user;
 class AuthController extends Controller {
+
+    public function __construct()
+    {
+      $this->registerMiddleware(new AuthMiddleware(['profile']));
+    }
 
     public function register(Request $request)
     {
@@ -25,6 +31,9 @@ class AuthController extends Controller {
         $registerModel->loadData($request->getBody());
         if($registerModel->validate() && $registerModel->save()){
           Application::$app->session->setFlash('success', 'Thanks For Registration');
+          $login = new login;
+          $login->loadData($request->getBody());
+          $login->login();
           Application::$app->response->redirect('/');
         }
         else{
@@ -52,5 +61,15 @@ class AuthController extends Controller {
           }
 
     }
+    public function logout(){
+    Application::$app->logout();
+    Application::$app->response->redirect('/');
+    }
+    public function profile()
+    {
+      return $this->render('profile');
+    }
+    
+    
 
 }

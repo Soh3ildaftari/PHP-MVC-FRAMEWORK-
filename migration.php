@@ -1,5 +1,4 @@
 <?php
-// use nameSpace
 use app\core\Application;
 //auto load 
 require_once __DIR__.'/vendor/autoload.php';
@@ -11,7 +10,8 @@ $config = [
         'dsn'=>$_ENV['DB_DSN'],
         'username'=>$_ENV['DB_USER'],
         'password'=>$_ENV['DB_PASS']
-    ]
+    ],
+    'userClass' => app\models\user::class
 ]; 
 //create an instance of Application
 $app = new Application(__DIR__,$config);

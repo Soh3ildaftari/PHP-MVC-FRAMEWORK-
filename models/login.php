@@ -1,5 +1,10 @@
 <?php 
 namespace app\models;
+/**
+ * Summary of login
+ * @author MasterMute <soheilsoheili1113@gmail.com>
+ * @copyright (c) 2023
+ */
 use app\core\Application;
 use app\core\Model;
 class login extends Model
@@ -24,6 +29,8 @@ class login extends Model
             $this->addError('password',[parent::RULE_VALID , 'attr'=>'Password'] );
             return false;
         }
+        Application::$app->login($user);
+        return true;
     }
 }
 

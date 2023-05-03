@@ -1,21 +1,19 @@
 <?php
-use app\core\Application;?>
-
+use app\core\Application;
+/**
+ * Summary of Router
+ * @author MasterMute <soheilsoheili1113@gmail.com>
+ * @copyright (c) 2023
+ */
+?>
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Hugo 0.108.0"> -->
     <title>LOL</title>
-    <!-- <link href="../bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous"> -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous"> 
     <meta name="theme-color" content="#712cf9">
     <style>
-
-
       .bd-placeholder-img {
         font-size: 1.125rem;
         text-anchor: middle;
@@ -69,31 +67,46 @@ use app\core\Application;?>
     </style>
 </head>
 <body>
-  <ul class="nav">
-  <li class="nav-item">
-    <a class="nav-link" href="/">Home</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="/contact">Contact</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="/lol">go</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="/login">login</a>
-  </li>  <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="/register">register</a>
-  </li>
-</ul>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="/">Logo</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+    <ul class="navbar-nav">
+    <?php if (Application::isGuest()):?>
+      <li class="nav-item">
+        <a class="nav-link" href="/register">SignUp</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/login">SignIn</a>
+      </li>
+    <?php endif?>
+      <li class="nav-item">
+        <a class="nav-link" href="/contact">Contact</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/about">About</a>
+      </li>
+    </ul>
+    <?php if (!Application::isGuest()):?>
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="/logout">Logout</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/profile">Profile</a>
+      </li>
+    </ul>
+    <?php endif?>
+  </div>
+</nav>
 <?php if (Application::$app->session->getFlash('success')):?>
 <div class="alert alert-success">
-  <?php echo Application::$app->session->getFlash('success'
-);?>
+<?php echo Application::$app->session->getFlash('success');?>
 </div>
 <?php endif;?>
 <div class="container">{{content}}</div>
-
-
  <script src="../bootstrap-5.1.3-dist/js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 </body>
 </html>

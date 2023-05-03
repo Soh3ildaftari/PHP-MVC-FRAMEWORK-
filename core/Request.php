@@ -1,5 +1,10 @@
 <?php
 namespace app\core;
+/**
+ * Summary of Request
+ * @author MasterMute <soheilsoheili1113@gmail.com>
+ * @copyright (c) 2023
+ */
 class Request{
 public function getPath()
 {
